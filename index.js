@@ -1,4 +1,4 @@
-const express = require ('express')
+const express = require('express')
 require('dotenv').config()
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -9,21 +9,26 @@ const customerRouter = require('./src/routes/customers')
 app.use('/uploads', express.static('uploads'))
 
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended:false}))
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors())
 app.use(morgan('dev'))
 
+<<<<<<< HEAD
 app.use('/customer', customerRouter)
 
+=======
+const usersRouter = require('./src/routes/users')
+app.use('/users', usersRouter)
+>>>>>>> 9e46ee52e316db60c20cc926ffc828efc9d0e09d
 
 app.use((request, response, next) => {
-    response.header('Access-Control-Allow-Origin', '*')
-    response.header('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept, Authorization')
-    next()
-  })
-  
-  app.get('/', (_request, response) => {response.send('Rest-Api Team Pythagoras')})
-  
-  app.listen(process.env.PORT, () => {
-    console.log(`App Listen on Port ${process.env.PORT}!`)
-  })
+  response.header('Access-Control-Allow-Origin', '*')
+  response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
+  next()
+})
+
+app.get('/', (_request, response) => { response.send('Rest-Api Team Pythagoras') })
+
+app.listen(process.env.PORT, () => {
+  console.log(`App Listen on Port ${process.env.PORT}!`)
+})
