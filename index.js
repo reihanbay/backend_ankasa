@@ -4,11 +4,16 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 const app = express()
+const customerRouter = require('./src/routes/customers')
+
+app.use('/uploads', express.static('uploads'))
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(cors())
 app.use(morgan('dev'))
 
+app.use('/customer', customerRouter)
 
 
 app.use((request, response, next) => {
