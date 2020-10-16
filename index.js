@@ -5,21 +5,16 @@ const cors = require('cors')
 const morgan = require('morgan')
 const app = express()
 const customerRouter = require('./src/routes/customers')
-
+const usersRouter = require('./src/routes/users')
 app.use('/uploads', express.static('uploads'))
 
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false}))
 app.use(cors())
 app.use(morgan('dev'))
 
-<<<<<<< HEAD
-app.use('/customer', customerRouter)
-
-=======
-const usersRouter = require('./src/routes/users')
 app.use('/users', usersRouter)
->>>>>>> 9e46ee52e316db60c20cc926ffc828efc9d0e09d
+app.use('/customer', customerRouter)
 
 app.use((request, response, next) => {
   response.header('Access-Control-Allow-Origin', '*')
