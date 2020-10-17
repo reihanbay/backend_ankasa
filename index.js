@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false}))
 app.use(cors())
 app.use(morgan('dev'))
 
+
 app.use('/users', usersRouter)
 app.use('/customer', customerRouter)
 app.use('/booking', bookingRouter)
