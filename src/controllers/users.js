@@ -11,6 +11,7 @@ module.exports = {
     const setData = {
       fullname,
       email,
+      user_role: 1,
       password: encryptPass,
       createAt: new Date(),
       updateAt: new Date()
@@ -20,6 +21,7 @@ module.exports = {
     try{
       const emailUnique = await checkUsersModel(email)
       if (emailUnique.length >=1) {
+        // console.log(email);
         res.send({
           success: false,
           message: 'Email has been registered!'
@@ -35,6 +37,7 @@ module.exports = {
       }
       
     } catch (error) {
+      console.log(error);
       res.status(400).send({
         success: false,
         message: 'Bad request'
@@ -50,9 +53,10 @@ module.exports = {
         const checkPass = bcrypt.compareSync(password, checkDataUsers[0].password)
         console.log(checkPass);
         if (checkPass) {
-          const {id_user, fullname, email} = checkDataUsers[0]
+          const {id_user, user_role, fullname, email} = checkDataUsers[0]
           let payload = {
             id_user,
+            user_role,
             fullname,
             email
           }
