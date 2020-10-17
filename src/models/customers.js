@@ -2,7 +2,7 @@ const db = require('../helpers/db')
 module.exports = {
   getCustomerByIDModel: (id) => {
     return new Promise((resolve, reject)=> {
-      db.query(`SELECT * FROM customers WHERE id_user = ${id}`, (err, result, _field) => {
+      db.query(`SELECT *, routes.city FROM customers JOIN routes ON customers.id_routes=routes.id_routes WHERE id_user = ${id}`, (err, result, _field) => {
         if(err) {
           reject(new Error(err))
         }
@@ -27,11 +27,11 @@ module.exports = {
       })
     })
   },
-  putCustomerModel: (id, body) => {
-    // console.log(body);
+  putCustomerModel: (id, body) => 
+  {
     return new Promise ((resolve, reject) =>{
-      db.query(`UPDATE customers SET ? WHERE id_customer='${id}'`, body, (err, result, _field) => {
-        // console.log(result);
+      db.query(`UPDATE customers SET ? WHERE id_customer='${id}'`, body, (err, result, _field) => 
+      {
         if(err) {
           reject(new Error(err))
         }

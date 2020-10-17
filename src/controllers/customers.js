@@ -31,6 +31,7 @@ module.exports = {
   createCustomer: async (req, res) => {
     const {
       id_user,
+      id_routes,
       username,
       phone,
       address,
@@ -38,6 +39,7 @@ module.exports = {
     } = req.body
     const setData = {
       id_user,
+      id_routes,
       username,
       phone,
       address,
@@ -63,6 +65,7 @@ module.exports = {
     const id = req.params.id
     const {
       id_user,
+      id_routes,
       username,
       phone,
       address,
@@ -70,6 +73,7 @@ module.exports = {
     } = req.body
     const setData = {
       id_user,
+      id_routes,
       username,
       phone,
       address,
