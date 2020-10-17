@@ -13,21 +13,12 @@ module.exports = {
             message: error.message
           })
         } else {
-          if (result.role === 'company') {
-            next()
-          } else {
-            res.status(403).send({
-              success: false,
-              message: 'You cant access'
-            })
-          }
-        }
-      })
-    } else {
       res.status(403).send({
         success: false,
         message: 'Please login first!'
       })
     }
+  })
+}
   }
 }
