@@ -22,9 +22,9 @@ module.exports = {
   
   checkUsersModel: (email) => {
     return new Promise ((resolve, reject)=>{
-        console.log(email);
-      db.query('SELECT id_user, fullname, email, password FROM users WHERE email = users.email', email, (error, result) =>{
-        console.log(error);
+        // console.log(email);
+      db.query('SELECT * FROM users WHERE email = ?', email, (error, result) => {
+        // console.log(error);
         if (!error) {
           resolve(result)
         } else {
