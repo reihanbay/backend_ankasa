@@ -4,6 +4,8 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 const app = express()
+const routeRouter = require('./src/routes/route')
+const bookingRouter = require('./src/routes/booking')
 const customerRouter = require('./src/routes/customers')
 const usersRouter = require('./src/routes/users')
 app.use('/uploads', express.static('uploads'))
@@ -15,6 +17,9 @@ app.use(morgan('dev'))
 
 app.use('/users', usersRouter)
 app.use('/customer', customerRouter)
+app.use('/booking', bookingRouter)
+app.use('/route', routeRouter)
+
 
 app.use((request, response, next) => {
   response.header('Access-Control-Allow-Origin', '*')
