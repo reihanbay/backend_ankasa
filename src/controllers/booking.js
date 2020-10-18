@@ -21,11 +21,17 @@ module.exports = {
           data: result[0]
         })
       }
+      else {
+        res.send({
+          success: false,
+          message: `Data booking ${id} not found`
+        })
+      }
     }
     catch (error) {
       res.send({
         success: false,
-        message: `Data booking ${id} not found`
+        message: 'bad request!'
       })
 
     }
