@@ -24,11 +24,10 @@ module.exports = {
           data: result
         })
       }
-    }
-    catch (error) {
-    res.send({
-      success: true,
-      message: 'There is no item on list'
+    } catch (error) {
+      res.send({
+        success: true,
+        message: 'There is no item on list'
       })
     }
   },
@@ -50,11 +49,10 @@ module.exports = {
           data: result
         })
       }
-    }
-    catch (error) {
-    res.send({
-      success: true,
-      message: 'There is no item on list'
+    } catch (error) {
+      res.send({
+        success: true,
+        message: 'There is no item on list'
       })
     }
   },
@@ -76,15 +74,14 @@ module.exports = {
           data: result
         })
       }
+    } catch (error) {
+      res.send({
+        success: true,
+        message: 'There is no item on list'
+      })
     }
-      catch (error) {
-        res.send({
-          success: true,
-          message: 'There is no item on list'
-          })
-      }
   },
-  createLocation: async(req, res) => {
+  createLocation: async (req, res) => {
     const {
       city,
       country
@@ -101,9 +98,8 @@ module.exports = {
         message: 'Location data has been created',
         data: result
       })
-    }
-    catch (error) {
-      console.log(error);
+    } catch (error) {
+      console.log(error)
       res.status(500).send({
         success: false,
         message: 'All field must be filled!'

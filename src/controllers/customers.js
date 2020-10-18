@@ -19,13 +19,11 @@ module.exports = {
           data: result[0]
         })
       }
-    }
-    catch (error) {
+    } catch (error) {
       res.send({
         success: false,
         message: `Data customer ${id} not found`
       })
-
     }
   },
   createCustomer: async (req, res) => {
@@ -53,8 +51,7 @@ module.exports = {
         message: 'Customer data has been created',
         data: result
       })
-    }
-    catch(error) {
+    } catch (error) {
       res.status(500).send({
         success: false,
         message: 'All field must be filled!'
@@ -81,14 +78,13 @@ module.exports = {
       image: req.file === undefined ? '' : req.file.filename
     }
     try {
-      const result = await putCustomerModel (id, setData)
+      const result = await putCustomerModel(id, setData)
       res.status(201).send({
         success: true,
-        message: 'Customer data has been updated',
+        message: 'Customer data has been updated'
       })
-    }
-    catch(error){
-      console.log(error);
+    } catch (error) {
+      console.log(error)
       res.status(500).send({
         success: false,
         message: 'All field must be filled!'
@@ -104,17 +100,17 @@ module.exports = {
           success: true,
           message: `Item company id ${id} has been deleted`
         })
-    } else {
+      } else {
+        res.send({
+          message: 'Data not found!'
+        })
+      }
+    } catch (error) {
+      console.log(error)
       res.send({
-            message: 'Data not found!'
-          })
+        success: false,
+        message: 'bad request!'
+      })
     }
-  } catch (error) {
-    console.log(error);
-    res.send({
-      success: false,
-      message: 'bad request!'
-    })
   }
-}
 }

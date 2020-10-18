@@ -1,12 +1,11 @@
 const db = require('../helpers/db')
 
-
 module.exports = {
-  
-    postUsersModel: (setData) => {
-    return new Promise ((resolve, reject)=>{
-      db.query('INSERT INTO users SET ?', setData, (error, result)=>{
-        if(error) {
+
+  postUsersModel: (setData) => {
+    return new Promise((resolve, reject) => {
+      db.query('INSERT INTO users SET ?', setData, (error, result) => {
+        if (error) {
           reject(new Error(error))
         } else {
           const newResult = {
@@ -19,12 +18,10 @@ module.exports = {
       })
     })
   },
-  
+
   checkUsersModel: (email) => {
-    return new Promise ((resolve, reject)=>{
-        // console.log(email);
+    return new Promise((resolve, reject) => {
       db.query('SELECT * FROM users WHERE email = ?', email, (error, result) => {
-        // console.log(error);
         if (!error) {
           resolve(result)
         } else {

@@ -7,16 +7,17 @@ module.exports = {
     if (token) {
       token = token.split(' ')[1]
       jwt.verify(token, process.env.JWT_KEY, (error, result) => {
-        if ((error && error.name === 'JsonWebTokenError') ||(error && error.name === 'TokenExpiredError' )) {
+        if ((error && error.name === 'JsonWebTokenError') || (error && error.name === 'TokenExpiredError')) {
           response.status(403).send({
             success: false,
             message: error.message
           })
         } else {
-          if(result.user_role === 1) {
+          if (result.user_role === 1) {
             next()
           } else {
-            response.status(403).send({success: false,
+            response.status(403).send({
+              success: false,
               message: 'You cant access'
             })
           }

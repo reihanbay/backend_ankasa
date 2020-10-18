@@ -6,7 +6,7 @@ const {
   deleteCustomer
 } = require('../controllers/customers')
 const router = Router()
-const {authorization} = require('../middlewares/auth')
+const { authorization } = require('../middlewares/auth')
 const uploadImage = require('../middlewares/multer')
 
 router.get('/:id', getCustomerByID)

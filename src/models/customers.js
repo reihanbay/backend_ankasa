@@ -1,21 +1,20 @@
 const db = require('../helpers/db')
 module.exports = {
   getCustomerByIDModel: (id) => {
-    return new Promise((resolve, reject)=> {
+    return new Promise((resolve, reject) => {
       db.query(`SELECT *, routes.city FROM customers JOIN routes ON customers.id_routes=routes.id_routes WHERE id_user = ${id}`, (err, result, _field) => {
-        if(err) {
+        if (err) {
           reject(new Error(err))
-        }
-        else {
+        } else {
           resolve(result)
         }
       })
     })
   },
   createCustomerModel: (body) => {
-    return new Promise((resolve, reject)=>{
-      db.query(`INSERT INTO customers SET ?`, body, (err, result, _field)=>{
-        if(err) {
+    return new Promise((resolve, reject) => {
+      db.query('INSERT INTO customers SET ?', body, (err, result, _field) => {
+        if (err) {
           reject(new Error(err))
         } else {
           const newResult = {
@@ -27,15 +26,12 @@ module.exports = {
       })
     })
   },
-  putCustomerModel: (id, body) => 
-  {
-    return new Promise ((resolve, reject) =>{
-      db.query(`UPDATE customers SET ? WHERE id_customer='${id}'`, body, (err, result, _field) => 
-      {
-        if(err) {
+  putCustomerModel: (id, body) => {
+    return new Promise((resolve, reject) => {
+      db.query(`UPDATE customers SET ? WHERE id_customer='${id}'`, body, (err, result, _field) => {
+        if (err) {
           reject(new Error(err))
-        }
-        else {
+        } else {
           resolve(result)
         }
       })
@@ -43,7 +39,7 @@ module.exports = {
   },
   deleteCustomerModel: (id) => {
     return new Promise((resolve, reject) => {
-      db.query(`DELETE FROM customers WHERE id_customer = '${id}'`, (err, result, _field)=>{
+      db.query(`DELETE FROM customers WHERE id_customer = '${id}'`, (err, result, _field) => {
         if (err) {
           reject(new Error(err))
         } else {
