@@ -14,12 +14,17 @@ module.exports = {
                     message: `Data Airlines id ${id}`,
                     data: result[0]
                 })
+            } else {
+              res.send({
+                success: false,
+                message: `Data Airlines ${id} not found`
+            })
             }
         }
         catch ( error ) {
             res.send({
                 success: false,
-                message: `Data booking ${id} not found`
+                message: 'bad request!'
             })
         }
     },
@@ -48,12 +53,17 @@ module.exports = {
                     message: 'List Airlines',
                     data: result
                 })
-            }
+              } else {
+                res.send({
+                  success: false,
+                  message: `Data Airlines ${id} not found`
+              })
+              }
         } catch (error) {
             console.log(error);
             res.send({
                 success: true,
-                message: 'There is no item on list'
+                message: 'Bad Request'
             })
         }
     },
@@ -74,7 +84,8 @@ module.exports = {
             time_destination,
             terminal,
             class_airlines,
-            facilities
+            facilities,
+            time_departure
         } = req.body
         
         const setData = {
@@ -92,6 +103,7 @@ module.exports = {
             terminal,
             class_airlines,
             facilities,
+            time_departure,
             image: req.file === undefined ? '' : req.file.filename
         }
         
@@ -127,7 +139,8 @@ module.exports = {
             time_destination,
             terminal,
             class_airlines,
-            facilities
+            facilities,
+            time_departure
         } = req.body
 
         const setData = {
@@ -145,6 +158,7 @@ module.exports = {
             terminal,
             class_airlines,
             facilities,
+            time_departure,
             image: req.file === undefined ? '' : req.file.filename
         }
 
