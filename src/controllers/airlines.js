@@ -1,9 +1,9 @@
 const { Router } = require('express')
-const { getAirlinesByIDModel, getAirlinesModel, createAirlinesModel, putAirlinesModel, deleteAirlinesModel } = require('../models/airlines')
+const { getAirlinesByIDModel, getAirlinesModel, createAirlinesModel, putAirlinesModel, deleteAirlinesModel, getSearchAirlinesModel } = require('../models/airlines')
 
 module.exports = {
 
-    getAirlinesByIDModel: async(req, res) => {
+    getAirlinesByID: async(req, res) => {
         const { id } = req.params
     
         try {
@@ -29,7 +29,7 @@ module.exports = {
         }
     },
 
-    getAirlinesModel: async (req, res) => {
+    getAirlines: async (req, res) => {
         const {id} = req.params
         let {page, limit} = req.query
         if(!limit) {
@@ -68,7 +68,7 @@ module.exports = {
         }
     },
 
-    createAirlinesModel: async (req, res) => {
+    createAirlines: async (req, res) => {
         
         const {
             id_airlines,
@@ -123,7 +123,7 @@ module.exports = {
           }
     },
 
-    putAirlinesModel: async (req, res) => {
+    putAirlines: async (req, res) => {
         
         const {
             id_airlines,
@@ -178,7 +178,7 @@ module.exports = {
         }
     },
 
-    deleteAirlinesModel: async (req, res) => {
+    deleteAirlines: async (req, res) => {
         const id = req.params.id
         try {
             const result = await deleteAirlinesModel(id)
@@ -199,6 +199,30 @@ module.exports = {
               message: 'bad request!'
             })
           }
+     },
+
+     getSearchAirlines: async (res) => {
+    
+      let {searchOrigin, searchDestination, searchDeparture, searchClass } = req.query
+
+     try {
+       const result = await getSearchAirlinesModel(searchOrigin, searchDeparture, searchDestination, searchClass)
+       if (result.length) {
+        res.send({
+          success: true,
+          message: 'List airlines',
+          data: result
+        })
+      }
+    
      }
+     catch(error) {
+       console.log(error);
+      res.send({
+        success: true,
+        message: 'There is no item on list'
+      })
+    }
+  }
 
 }
