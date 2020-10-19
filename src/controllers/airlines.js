@@ -2,7 +2,6 @@ const { Router } = require('express')
 const { getAirlinesByIDModel, getAirlinesModel, createAirlinesModel, putAirlinesModel, deleteAirlinesModel, getSearchAirlinesModel } = require('../models/airlines')
 
 module.exports = {
-
   getAirlinesByID: async (req, res) => {
     const { id } = req.params
 
@@ -36,6 +35,13 @@ module.exports = {
     } else {
       limit = parseInt(limit)
     }
+
+    if (!page) {
+      page = 1
+    } else {
+      page = parseInt(page)
+    }
+
     const offset = (page - 1) * limit
     try {
       const result = await getAirlinesModel(limit, offset, id)
@@ -115,6 +121,7 @@ module.exports = {
   },
 
   putAirlines: async (req, res) => {
+    const { id } = req.params
     const {
       id_airlines,
       name_airlines,
@@ -153,11 +160,10 @@ module.exports = {
     }
 
     try {
-      const result = await createAirlinesModel(setData)
+      const result = await putAirlinesModel(id, setData)
       res.status(201).send({
         success: true,
-        message: 'Airlines data has been created',
-        data: result
+        message: 'Airlines data has been updated'
       })
     } catch (error) {
       console.log(error)
@@ -202,12 +208,17 @@ module.exports = {
           message: 'List airlines',
           data: result
         })
+      } else {
+        res.send({
+          success: false,
+          message: 'Data Airlines not found'
+        })
       }
     } catch (error) {
       console.log(error)
       res.send({
         success: true,
-        message: 'There is no item on list'
+        message: 'Bad Request'
       })
     }
   },
