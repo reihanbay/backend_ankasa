@@ -15,14 +15,19 @@ module.exports = {
       if (result.length) {
         res.send({
           success: true,
-          message: `Data customer id ${id}`,
+          message: `Data customer id user = ${id}`,
           data: result[0]
+        })
+      } else {
+        res.send({
+          success: false,
+          message: `Data customer in user ${id} not found`
         })
       }
     } catch (error) {
       res.send({
         success: false,
-        message: `Data customer ${id} not found`
+        message: 'bad request!'
       })
     }
   },
@@ -98,7 +103,7 @@ module.exports = {
       if (result.affectedRows) {
         res.send({
           success: true,
-          message: `Item company id ${id} has been deleted`
+          message: `Item customer id ${id} has been deleted`
         })
       } else {
         res.send({

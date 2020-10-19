@@ -1,9 +1,9 @@
 const { Router } = require('express')
-const { getAirlinesByIDModel, getAirlinesModel, createAirlinesModel, putAirlinesModel, deleteAirlinesModel } = require('../models/airlines')
+const { getAirlinesByIDModel, getAirlinesModel, createAirlinesModel, putAirlinesModel, deleteAirlinesModel, getSearchAirlinesModel } = require('../models/airlines')
 
 module.exports = {
 
-  getAirlinesByIDModel: async (req, res) => {
+  getAirlinesByID: async (req, res) => {
     const { id } = req.params
 
     try {
@@ -14,28 +14,27 @@ module.exports = {
           message: `Data Airlines id ${id}`,
           data: result[0]
         })
+      } else {
+        res.send({
+          success: false,
+          message: `Data Airlines ${id} not found`
+        })
       }
     } catch (error) {
       res.send({
         success: false,
-        message: `Data booking ${id} not found`
+        message: 'bad request!'
       })
     }
   },
 
-  getAirlinesModel: async (req, res) => {
+  getAirlines: async (req, res) => {
     const { id } = req.params
     let { page, limit } = req.query
     if (!limit) {
       limit = 30
     } else {
       limit = parseInt(limit)
-    }
-
-    if (!page) {
-      page = 1
-    } else {
-      page = parseInt(page)
     }
 
     const offset = (page - 1) * limit
@@ -47,17 +46,22 @@ module.exports = {
           message: 'List Airlines',
           data: result
         })
+      } else {
+        res.send({
+          success: false,
+          message: `Data Airlines ${id} not found`
+        })
       }
     } catch (error) {
       console.log(error)
       res.send({
         success: true,
-        message: 'There is no item on list'
+        message: 'Bad Request'
       })
     }
   },
 
-  createAirlinesModel: async (req, res) => {
+  createAirlines: async (req, res) => {
     const {
       id_airlines,
       name_airlines,
@@ -72,7 +76,8 @@ module.exports = {
       time_destination,
       terminal,
       class_airlines,
-      facilities
+      facilities,
+      time_departure
     } = req.body
 
     const setData = {
@@ -90,6 +95,7 @@ module.exports = {
       terminal,
       class_airlines,
       facilities,
+      time_departure,
       image: req.file === undefined ? '' : req.file.filename
     }
 
@@ -109,8 +115,7 @@ module.exports = {
     }
   },
 
-  putAirlinesModel: async (req, res) => {
-    const { id } = req.params
+  putAirlines: async (req, res) => {
     const {
       id_airlines,
       name_airlines,
@@ -125,7 +130,8 @@ module.exports = {
       time_destination,
       terminal,
       class_airlines,
-      facilities
+      facilities,
+      time_departure
     } = req.body
 
     const setData = {
@@ -143,20 +149,66 @@ module.exports = {
       terminal,
       class_airlines,
       facilities,
+      time_departure,
       image: req.file === undefined ? '' : req.file.filename
     }
 
     try {
-      const result = await putAirlinesModel(id, setData)
+      const result = await createAirlinesModel(setData)
       res.status(201).send({
         success: true,
-        message: 'Customer data has been updated'
+        message: 'Airlines data has been created',
+        data: result
       })
     } catch (error) {
       console.log(error)
       res.status(500).send({
         success: false,
         message: 'All field must be filled!'
+      })
+    }
+  },
+
+  deleteAirlines: async (req, res) => {
+    const id = req.params.id
+    try {
+      const result = await deleteAirlinesModel(id)
+      if (result.affectedRows) {
+        res.send({
+          success: true,
+          message: 'Item Airlines id ${id} has been delete'
+        })
+      } else {
+        res.send({
+          message: 'Data not found!'
+        })
+      }
+    } catch (error) {
+      console.log(error)
+      res.send({
+        success: false,
+        message: 'bad request!'
+      })
+    }
+  },
+
+  getSearchAirlines: async (res) => {
+    const { searchOrigin, searchDestination, searchDeparture, searchClass } = req.query
+
+    try {
+      const result = await getSearchAirlinesModel(searchOrigin, searchDeparture, searchDestination, searchClass)
+      if (result.length) {
+        res.send({
+          success: true,
+          message: 'List airlines',
+          data: result
+        })
+      }
+    } catch (error) {
+      console.log(error)
+      res.send({
+        success: true,
+        message: 'There is no item on list'
       })
     }
   },
