@@ -65,5 +65,17 @@
         }
       })
     })
+  },
+  getSearchAirlinesModel: (searchOrigin, searchDestination, searchClass, searchDeparture) => {
+    return new Promise((resolve, reject) => {
+      db.query(`SELECT des.city as code_route_origin, dep.city as code_route_destination, a.country as country_origin, b.country as country_destination, airlines.time_departure, airlines.class_airlines FROM airlines JOIN routes des ON airlines.id_route_origin=des.id_routes JOIN routes dep ON airlines.id_route_destination=dep.id_routes JOIN routes a ON airlines.id_route_origin=a.id_routes JOIN routes b ON airlines.id_route_destination=b.id_routes WHERE des.city LIKE '%${searchOrigin}%' and dep.city LIKE '%${searchDestination} and airlines.time_departure LIKE '%${searchDeparture} and airlines.class_airlines LIKE '%${searchClass}`, (err, result, _field) => {
+        if(err) {
+          reject(new Error(err))
+        } else {
+          resolve(result)
+        }
+      })
+    })
   }
 }
+
