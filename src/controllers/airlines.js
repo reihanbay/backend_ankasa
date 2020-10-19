@@ -166,7 +166,7 @@ module.exports = {
             const result = await putAirlinesModel (id, setData)
             res.status(201).send({
               success: true,
-              message: 'Customer data has been updated',
+              message: 'Airlines data has been updated',
             })
           }
           catch(error){
