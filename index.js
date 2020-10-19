@@ -12,17 +12,15 @@ const airlinesRouter = require('./src/routes/airlines')
 app.use('/uploads', express.static('uploads'))
 
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false}))
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors())
 app.use(morgan('dev'))
-
 
 app.use('/users', usersRouter)
 app.use('/customer', customerRouter)
 app.use('/booking', bookingRouter)
 app.use('/route', routeRouter)
 app.use('/airlines', airlinesRouter)
-
 
 app.use((request, response, next) => {
   response.header('Access-Control-Allow-Origin', '*')

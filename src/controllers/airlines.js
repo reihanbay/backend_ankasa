@@ -2,7 +2,6 @@ const { Router } = require('express')
 const { getAirlinesByIDModel, getAirlinesModel, createAirlinesModel, putAirlinesModel, deleteAirlinesModel, getSearchAirlinesModel } = require('../models/airlines')
 
 module.exports = {
-
     getAirlinesByID: async(req, res) => {
         const { id } = req.params
     
@@ -201,7 +200,7 @@ module.exports = {
           }
      },
 
-     getSearchAirlines: async (res) => {
+     getSearchAirlines: async (req, res) => {
     
       let {searchOrigin, searchDestination, searchDeparture, searchClass } = req.query
 
@@ -214,13 +213,34 @@ module.exports = {
           data: result
         })
       }
-    
-     }
-     catch(error) {
-       console.log(error);
+    } catch (error) {
+      console.log(error)
       res.send({
         success: true,
         message: 'There is no item on list'
+      })
+    }
+  },
+
+  deleteAirlinesModel: async (req, res) => {
+    const id = req.params.id
+    try {
+      const result = await deleteAirlinesModel(id)
+      if (result.affectedRows) {
+        res.send({
+          success: true,
+          message: `Item Airlines id ${id} has been delete`
+        })
+      } else {
+        res.send({
+          message: 'Data not found!'
+        })
+      }
+    } catch (error) {
+      console.log(error)
+      res.send({
+        success: false,
+        message: 'bad request!'
       })
     }
   }

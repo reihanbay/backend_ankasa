@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
 })
 
 const fileFilter = (req, file, cb) => {
-  console.log('File Filter:' + file );
+  console.log('File Filter:' + file)
   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
     cb(null, true)
   } else {
@@ -22,29 +22,29 @@ const limits = {
   fileSize: 1024 * 1024 * 1
 }
 
-let upload = multer({
+const upload = multer({
   storage,
   fileFilter,
   limits
 }).single('image')
 
 const uploadFilter = (req, res, next) => {
-    upload(req, res, function (err) {
-        if (err instanceof multer.MulterError) {
-          //A Multer error accured when uploading
-          res.status(400).send({
-            success: false,
-            message: err.message
-          })
-        } else if (err) {
-          // An unknown error accured when uploading
-          res.status(400).send({
-            success: false,
-            message: err.message
-          })
-        }
-        next()
+  upload(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      // A Multer error accured when uploading
+      res.status(400).send({
+        success: false,
+        message: err.message
+      })
+    } else if (err) {
+      // An unknown error accured when uploading
+      res.status(400).send({
+        success: false,
+        message: err.message
       })
     }
+    next()
+  })
+}
 
-    module.exports = uploadFilter
+module.exports = uploadFilter

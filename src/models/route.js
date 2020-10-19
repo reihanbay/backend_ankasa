@@ -35,16 +35,16 @@ module.exports = {
   },
   createLocationModel: (body) => {
     return new Promise((resolve, reject) => {
-      db.query(`INSERT INTO routes SET ?`, body, (err, result, _field) => {
-        if(err) {
+      db.query('INSERT INTO routes SET ?', body, (err, result, _field) => {
+        if (err) {
           reject(new Error(err))
-      } else {
-        const newResult = {
-          id: result.insertId,
-          ...body
+        } else {
+          const newResult = {
+            id: result.insertId,
+            ...body
+          }
+          resolve(newResult)
         }
-      resolve(newResult)
-    }
       })
     })
   }

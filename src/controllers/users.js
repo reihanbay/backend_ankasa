@@ -1,11 +1,11 @@
-const {postUsersModel, checkUsersModel} = require('../models/users')
+const { postUsersModel, checkUsersModel } = require('../models/users')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 module.exports = {
-  
-    registerUsers: async (req, res) => {
-    const {fullname, email, password} = req.body
+
+  registerUsers: async (req, res) => {
+    const { fullname, email, password } = req.body
     const salt = bcrypt.genSaltSync(10)
     const encryptPass = bcrypt.hashSync(password, salt)
     const setData = {
@@ -16,11 +16,11 @@ module.exports = {
       createAt: new Date(),
       updateAt: new Date()
 
-    } 
-    
-    try{
+    }
+
+    try {
       const emailUnique = await checkUsersModel(email)
-      if (emailUnique.length >=1) {
+      if (emailUnique.length >= 1) {
         // console.log(email);
         res.send({
           success: false,
@@ -28,14 +28,13 @@ module.exports = {
         })
       } else {
         const result = await postUsersModel(setData)
-     
-      res.send({
-        success: true,
-        message: 'Success Register Account!',
-        data: result
-      })
+
+        res.send({
+          success: true,
+          message: 'Success Register Account!',
+          data: result
+        })
       }
-      
     } catch (error) {
       console.log(error);
       res.status(400).send({
@@ -44,25 +43,25 @@ module.exports = {
       })
     }
   },
-  
-  loginUsers: async(req, res) => {
+
+  loginUsers: async (req, res) => {
     try {
-      const {email, password} = req.body
+      const { email, password } = req.body
       const checkDataUsers = await checkUsersModel(email)
-      if (checkDataUsers.length >=1) {
+      if (checkDataUsers.length >= 1) {
         const checkPass = bcrypt.compareSync(password, checkDataUsers[0].password)
-        console.log(checkPass);
+        console.log(checkPass)
         if (checkPass) {
-          const {id_user, user_role, fullname, email} = checkDataUsers[0]
+          const { id_user, user_role, fullname, email } = checkDataUsers[0]
           let payload = {
             id_user,
             user_role,
             fullname,
             email
           }
-          console.log(payload);
-          const token = jwt.sign(payload, process.env.JWT_KEY, {expiresIn: '2h'})
-          payload = { ...payload, token}
+          console.log(payload)
+          const token = jwt.sign(payload, process.env.JWT_KEY, { expiresIn: '2h' })
+          payload = { ...payload, token }
           res.send({
             success: true,
             message: 'Success Login!',
